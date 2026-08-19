@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Daily VR Routine — AS-16</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --bg-elev: #171b23;
+    --bg-elev-2: #1f2531;
+    --border: #2a3140;
+    --border-strong: #3a4356;
+    --text: #e6ebf2;
+    --text-dim: #98a2b3;
+    --text-mute: #6b7280;
+    --accent: #7cc4ff;
+    --accent-2: #a78bfa;
+    --create: #52d6a4;
+    --transform: #ffb454;
+    --danger: #ef6b6b;
+    --shadow: 0 4px 24px rgba(0,0,0,0.35);
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 15.5px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  .eyebrow {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 26px; font-weight: 700; letter-spacing: -0.01em;
+    margin: 0 0 10px;
+  }
+  header.top p {
+    color: var(--text-dim); margin: 0 0 24px; max-width: 640px;
+  }
+
+  .card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 22px 18px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 {
+    font-size: 17px; font-weight: 650;
+    margin: 0 0 6px;
+  }
+  .card .hint {
+    font-size: 13.5px; color: var(--text-dim);
+    margin: 0 0 14px;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--text-dim); margin-bottom: 6px;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    background: var(--bg-elev-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: inherit; font-size: 14.5px; line-height: 1.5;
+    resize: vertical;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(124,196,255,0.15);
+  }
+  textarea { min-height: 78px; }
+
+  .row-two {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  @media (max-width: 620px) { .row-two { grid-template-columns: 1fr; } }
+
+  .toggles {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 4px;
+  }
+  .toggle {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--text-dim);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.12s ease;
+  }
+  .toggle:hover { border-color: var(--border-strong); color: var(--text); }
+  .toggle.on {
+    background: rgba(124,196,255,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .preview {
+    background: var(--bg-elev-2);
+    border: 1px dashed var(--border-strong);
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 14px;
+    color: var(--text-dim);
+    white-space: pre-wrap;
+    min-height: 60px;
+    margin-top: 8px;
+  }
+  .preview.filled { color: var(--text); }
+
+  .meta-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 620px) { .meta-row { grid-template-columns: 1fr; } }
+
+  .submit-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-top: 6px;
+  }
+  .char-count { font-size: 12.5px; color: var(--text-mute); }
+  .char-count.ok { color: var(--create); }
+
+  button.submit {
+    background: var(--accent);
+    color: #0b1220;
+    border: 0; border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14.5px; font-weight: 650;
+    cursor: pointer;
+    transition: opacity 0.12s ease;
+  }
+  button.submit:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.submit:hover:not(:disabled) { opacity: 0.9; }
+
+  .status { font-size: 13px; color: var(--text-dim); min-height: 18px; }
+  .status.err { color: var(--danger); }
+  .status.ok  { color: var(--create); }
+
+  .peers .peer {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .peer .who {
+    font-size: 12px; font-weight: 600;
+    color: var(--accent-2);
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .peer .what {
+    font-size: 14px; color: var(--text);
+    white-space: pre-wrap;
+  }
+  .peers-empty {
+    color: var(--text-mute); font-size: 13.5px; padding: 8px 2px;
+  }
+
+  .locked-hint {
+    color: var(--text-mute); font-size: 13px;
+    padding: 10px 0 4px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">AS-16 · Page 5 · Builder</div>
+    <h1>My Daily VR Routine</h1>
+    <p>You've seen the four mindset shifts and worked through the Disaster Reel. Now document the routine <em>you</em> will actually run — the pre-class settings you set every day, the signals you'll use for transitions, and one classroom signal you'll teach on Day 1.</p>
+  </header>
+
+  <!-- 1. Pre-class settings -->
+  <section class="card">
+    <h2>1 · Pre-class settings</h2>
+    <p class="hint">Which permissions do you set <em>before</em> students arrive, so the room is ready for the lesson you're about to run? Tap the ones you'll use as your default.</p>
+
+    <div class="toggles" id="toggles-pre">
+      <div class="toggle" data-val="Speakerphone off by default">Speakerphone off by default</div>
+      <div class="toggle" data-val="Proximity voice on">Proximity voice on</div>
+      <div class="toggle" data-val="Object spawning off">Object spawning off</div>
+      <div class="toggle" data-val="Drawing tools on">Drawing tools on</div>
+      <div class="toggle" data-val="Teleport within room only">Teleport within room only</div>
+      <div class="toggle" data-val="Avatar changes locked">Avatar changes locked</div>
+      <div class="toggle" data-val="Mic on entry">Mic on entry</div>
+      <div class="toggle" data-val="Mic muted on entry">Mic muted on entry</div>
+      <div class="toggle" data-val="Teams channel pinned on second screen">Teams channel pinned on second screen</div>
+    </div>
+
+    <div class="field" style="margin-top:14px;">
+      <label>Anything else you set before class?</label>
+      <textarea id="pre-other" placeholder="e.g., load the pinboard, spawn 5 marker sets near the whiteboard, set stage lighting to dim…"></textarea>
+    </div>
+  </section>
+
+  <!-- 2. Transitions -->
+  <section class="card">
+    <h2>2 · Transitions</h2>
+    <p class="hint">How will you move students between activities? Remember: speakerphone is punctuation, not default. Write the signal you'll use for each transition.</p>
+
+    <div class="field">
+      <label>Opening the class (getting attention on Day 1)</label>
+      <input type="text" id="t-open" placeholder="e.g., speakerphone on, 'Welcome to circle, come to the blue mat'" />
+    </div>
+    <div class="field">
+      <label>Moving from whole-group into small-group work</label>
+      <input type="text" id="t-into-small" placeholder="e.g., speakerphone on for 10s, then off — groups know to teleport to their assigned zone" />
+    </div>
+    <div class="field">
+      <label>Pulling students back from small-group into whole-group</label>
+      <input type="text" id="t-back-whole" placeholder="e.g., three chimes on speakerphone, then a 30-second countdown on the shared whiteboard" />
+    </div>
+    <div class="field">
+      <label>Closing the class</label>
+      <input type="text" id="t-close" placeholder="e.g., speakerphone on, 30-second wrap, exit teleport unlocked last" />
+    </div>
+  </section>
+
+  <!-- 3. One Day-1 signal -->
+  <section class="card">
+    <h2>3 · Your Day-1 classroom signal</h2>
+    <p class="hint">Pick <strong>one</strong> classroom signal you will teach students on Day 1. Not the whole routine — one signal, the one you'll rely on all year. Describe what it looks like, sounds like, and what students do when it happens.</p>
+
+    <div class="field">
+      <label>Name your signal</label>
+      <input type="text" id="sig-name" placeholder="e.g., 'The Chime-Three', 'Circle Up', 'Freeze Frame'" />
+    </div>
+    <div class="field">
+      <label>What it looks / sounds like, and what students do</label>
+      <textarea id="sig-desc" placeholder="e.g., I ring the shared chime three times over speakerphone. Every student stops moving, mutes their mic, and turns their avatar to face the center of the room. First person to face center 'wins' the round — no prize, just recognition."></textarea>
+    </div>
+  </section>
+
+  <!-- 4. Post to peers -->
+  <section class="card">
+    <h2>4 · Post your routine to your cohort</h2>
+    <p class="hint">Your routine will be composed into a single card and shared on the peer wall so others can see what you're planning. You'll be able to see everyone else's after you post.</p>
+
+    <div class="meta-row">
+      <div class="field" style="margin-bottom:0;">
+        <label>Your name or initials</label>
+        <input type="text" id="name" placeholder="e.g., P. Birchum or PB" maxlength="60" />
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label>Subject / grade band</label>
+        <input type="text" id="subject" placeholder="e.g., HS Chemistry, MS ELA" maxlength="60" />
+      </div>
+    </div>
+
+    <label style="display:block;font-size:13px;font-weight:600;color:var(--text-dim);margin:6px 0 6px;">Preview</label>
+    <div class="preview" id="preview">Fill in the sections above — your composed routine will appear here.</div>
+
+    <div class="submit-row" style="margin-top:14px;">
+      <div class="char-count" id="char-count">0 chars</div>
+      <button class="submit" id="submit" disabled>Post to peer wall</button>
+    </div>
+    <div class="status" id="status"></div>
+  </section>
+
+  <!-- 5. Peer wall -->
+  <section class="card peers">
+    <h2>5 · What your cohort is doing</h2>
+    <p class="hint">Unlocks after you post. Read three. Notice one thing you'd steal.</p>
+    <div id="peers-container">
+      <div class="locked-hint">🔒 Post your routine to unlock the peer wall.</div>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA07zz3isOGX8dYJM4T4MiF3OVi2D1YePA",
+  authDomain: "optima-pd-cohorts.firebaseapp.com",
+  projectId: "optima-pd-cohorts",
+  storageBucket: "optima-pd-cohorts.firebasestorage.app",
+  messagingSenderId: "637834043340",
+  appId: "1:637834043340:web:f9aad5008d9385b0b9c769"
+};
+
+const CONFIG = {
+  pageId: "as16-routine",
+  minChars: 150,
+  showPeers: true
+};
+
+const LS_KEY = `wall-posted-${CONFIG.pageId}`;
+
+// --- toggle chips ---
+const toggleEls = document.querySelectorAll("#toggles-pre .toggle");
+toggleEls.forEach(el => {
+  el.addEventListener("click", () => {
+    el.classList.toggle("on");
+    compose();
+  });
+});
+
+// --- inputs that update the preview ---
+const inputs = [
+  "pre-other", "t-open", "t-into-small", "t-back-whole", "t-close",
+  "sig-name", "sig-desc", "name", "subject"
+];
+inputs.forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener("input", compose);
+});
+
+const previewEl = document.getElementById("preview");
+const charCountEl = document.getElementById("char-count");
+const submitBtn = document.getElementById("submit");
+const statusEl = document.getElementById("status");
+
+function selectedToggles() {
+  return Array.from(document.querySelectorAll("#toggles-pre .toggle.on"))
+    .map(el => el.dataset.val);
+}
+
+function composedText() {
+  const toggles = selectedToggles();
+  const preOther = document.getElementById("pre-other").value.trim();
+  const tOpen = document.getElementById("t-open").value.trim();
+  const tSmall = document.getElementById("t-into-small").value.trim();
+  const tBack = document.getElementById("t-back-whole").value.trim();
+  const tClose = document.getElementById("t-close").value.trim();
+  const sigName = document.getElementById("sig-name").value.trim();
+  const sigDesc = document.getElementById("sig-desc").value.trim();
+
+  const parts = [];
+
+  parts.push("PRE-CLASS SETTINGS");
+  if (toggles.length) parts.push("• " + toggles.join("\n• "));
+  if (preOther) parts.push("• " + preOther);
+  if (!toggles.length && !preOther) parts.push("(none listed yet)");
+
+  parts.push("");
+  parts.push("TRANSITIONS");
+  parts.push(`• Opening: ${tOpen || "—"}`);
+  parts.push(`• Into small-group: ${tSmall || "—"}`);
+  parts.push(`• Back to whole-group: ${tBack || "—"}`);
+  parts.push(`• Closing: ${tClose || "—"}`);
+
+  parts.push("");
+  parts.push("DAY-1 SIGNAL");
+  if (sigName || sigDesc) {
+    parts.push(`• ${sigName || "(unnamed)"} — ${sigDesc || "(no description yet)"}`);
+  } else {
+    parts.push("• (not written yet)");
+  }
+
+  return parts.join("\n");
+}
+
+function compose() {
+  const text = composedText();
+  const name = document.getElementById("name").value.trim();
+  previewEl.textContent = text;
+  previewEl.classList.toggle("filled", text.length > 40);
+
+  charCountEl.textContent = `${text.length} chars (min ${CONFIG.minChars})`;
+  charCountEl.classList.toggle("ok", text.length >= CONFIG.minChars);
+
+  const ready = text.length >= CONFIG.minChars && name.length > 0;
+  submitBtn.disabled = !ready;
+}
+
+compose();
+
+// --- Firestore ---
+let db;
+let firestoreOk = false;
+try {
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  firestoreOk = true;
+} catch (e) {
+  console.warn("Firebase init failed, falling back to localStorage only.", e);
+}
+
+// If user already posted this session, unlock the wall
+if (localStorage.getItem(LS_KEY) === "1") {
+  unlockPeers();
+}
+
+submitBtn.addEventListener("click", async () => {
+  const text = composedText();
+  const name = document.getElementById("name").value.trim() || "Anonymous";
+  const subject = document.getElementById("subject").value.trim();
+  const displayName = subject ? `${name} · ${subject}` : name;
+
+  submitBtn.disabled = true;
+  statusEl.className = "status";
+  statusEl.textContent = "Posting…";
+
+  const payload = {
+    text: text.slice(0, 2000),
+    name: displayName.slice(0, 60),
+    createdAt: serverTimestamp()
+  };
+
+  let saved = false;
+  if (firestoreOk) {
+    try {
+      await addDoc(collection(db, "walls", CONFIG.pageId, "responses"), payload);
+      saved = true;
+    } catch (e) {
+      console.warn("Firestore post failed, falling back to localStorage.", e);
+    }
+  }
+
+  if (!saved) {
+    // localStorage fallback: still let the teacher through
+    const local = JSON.parse(localStorage.getItem(`local-${CONFIG.pageId}`) || "[]");
+    local.push({ text: payload.text, name: payload.name, ts: Date.now() });
+    localStorage.setItem(`local-${CONFIG.pageId}`, JSON.stringify(local));
+  }
+
+  localStorage.setItem(LS_KEY, "1");
+  statusEl.className = "status ok";
+  statusEl.textContent = saved
+    ? "Posted. Peer wall unlocked below."
+    : "Saved locally (offline). Peer wall unlocked below.";
+  submitBtn.textContent = "Posted";
+  unlockPeers();
+});
+
+function unlockPeers() {
+  const container = document.getElementById("peers-container");
+  container.innerHTML = `<div class="peers-empty">Loading peer responses…</div>`;
+
+  if (!firestoreOk || !CONFIG.showPeers) {
+    // show local fallback
+    const local = JSON.parse(localStorage.getItem(`local-${CONFIG.pageId}`) || "[]");
+    renderPeers(container, local.map(l => ({ name: l.name, text: l.text })));
+    return;
+  }
+
+  const q = query(
+    collection(db, "walls", CONFIG.pageId, "responses"),
+    orderBy("createdAt", "desc")
+  );
+  onSnapshot(q, (snap) => {
+    const items = [];
+    snap.forEach(doc => items.push(doc.data()));
+    renderPeers(container, items);
+  }, (err) => {
+    console.warn("Peer listen failed.", err);
+    const local = JSON.parse(localStorage.getItem(`local-${CONFIG.pageId}`) || "[]");
+    renderPeers(container, local.map(l => ({ name: l.name, text: l.text })));
+  });
+}
+
+function renderPeers(container, items) {
+  if (!items.length) {
+    container.innerHTML = `<div class="peers-empty">No one else has posted yet — you're first.</div>`;
+    return;
+  }
+  container.innerHTML = "";
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "peer";
+    const who = document.createElement("div");
+    who.className = "who";
+    who.textContent = item.name || "Anonymous";
+    const what = document.createElement("div");
+    what.className = "what";
+    what.textContent = item.text || "";
+    div.appendChild(who);
+    div.appendChild(what);
+    container.appendChild(div);
+  });
+}
+</script>
+</body>
+</html>
