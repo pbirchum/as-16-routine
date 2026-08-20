@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>My Daily VR Routine — AS-16</title>
+<title>Plan Your Next VR Lesson — AS-16</title>
 <style>
   :root {
     --bg: #0e1116;
@@ -43,7 +43,7 @@
     margin: 0 0 10px;
   }
   header.top p {
-    color: var(--text-dim); margin: 0 0 24px; max-width: 640px;
+    color: var(--text-dim); margin: 0 0 24px; max-width: 680px;
   }
 
   .card {
@@ -62,6 +62,7 @@
     font-size: 13.5px; color: var(--text-dim);
     margin: 0 0 14px;
   }
+  .card .hint em { color: var(--text); font-style: normal; font-weight: 600; }
 
   .field { margin-bottom: 14px; }
   .field label {
@@ -82,34 +83,8 @@
     outline: none; border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(124,196,255,0.15);
   }
-  textarea { min-height: 78px; }
-
-  .row-two {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-  }
-  @media (max-width: 620px) { .row-two { grid-template-columns: 1fr; } }
-
-  .toggles {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-top: 4px;
-  }
-  .toggle {
-    background: var(--bg-elev-2);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-size: 13px;
-    color: var(--text-dim);
-    cursor: pointer;
-    user-select: none;
-    transition: all 0.12s ease;
-  }
-  .toggle:hover { border-color: var(--border-strong); color: var(--text); }
-  .toggle.on {
-    background: rgba(124,196,255,0.12);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
+  textarea.short { min-height: 90px; }
+  textarea.tall { min-height: 140px; }
 
   .preview {
     background: var(--bg-elev-2);
@@ -183,76 +158,47 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">AS-16 · Page 5 · Builder</div>
-    <h1>My Daily VR Routine</h1>
-    <p>You've seen the four mindset shifts and worked through the Disaster Reel. Now document the routine <em>you</em> will actually run — the pre-class settings you set every day, the signals you'll use for transitions, and one classroom signal you'll teach on Day 1.</p>
+    <div class="eyebrow">AS-16 · Page 5 · Plan a Real Lesson</div>
+    <h1>Plan Your Next VR Lesson</h1>
+    <p>Pick a lesson you're actually planning to teach in VR in the next week or two. Walk through what it looks like when things go <em>right</em>, imagine what it looks like when they go <em>wrong</em>, and then map the specific admin-panel powers you'd turn on — and when — to keep the wrong version from happening. When you post, you'll see how your cohort is thinking about their own lessons.</p>
   </header>
 
-  <!-- 1. Pre-class settings -->
+  <!-- 1. The lesson -->
   <section class="card">
-    <h2>1 · Pre-class settings</h2>
-    <p class="hint">Which permissions do you set <em>before</em> students arrive, so the room is ready for the lesson you're about to run? Tap the ones you'll use as your default.</p>
-
-    <div class="toggles" id="toggles-pre">
-      <div class="toggle" data-val="Speakerphone off by default">Speakerphone off by default</div>
-      <div class="toggle" data-val="Proximity voice on">Proximity voice on</div>
-      <div class="toggle" data-val="Object spawning off">Object spawning off</div>
-      <div class="toggle" data-val="Drawing tools on">Drawing tools on</div>
-      <div class="toggle" data-val="Teleport within room only">Teleport within room only</div>
-      <div class="toggle" data-val="Avatar changes locked">Avatar changes locked</div>
-      <div class="toggle" data-val="Mic on entry">Mic on entry</div>
-      <div class="toggle" data-val="Mic muted on entry">Mic muted on entry</div>
-      <div class="toggle" data-val="Teams channel pinned on second screen">Teams channel pinned on second screen</div>
-    </div>
-
-    <div class="field" style="margin-top:14px;">
-      <label>Anything else you set before class?</label>
-      <textarea id="pre-other" placeholder="e.g., load the pinboard, spawn 5 marker sets near the whiteboard, set stage lighting to dim…"></textarea>
+    <h2>1 · The lesson you're planning</h2>
+    <p class="hint">What's the lesson? Give enough detail that a colleague could picture what students are doing — <em>subject, grade, the VR room or app, the activity, roughly how long</em>.</p>
+    <div class="field">
+      <textarea id="lesson" class="tall" placeholder="e.g., 10th-grade Biology, Engage — cell organelle tour. 40 minutes. Students spawn in the 'Inside a Cell' environment, gather around each organelle station, and take turns explaining function to their small group using the pinboard."></textarea>
     </div>
   </section>
 
-  <!-- 2. Transitions -->
+  <!-- 2. What it looks like when things go wrong -->
   <section class="card">
-    <h2>2 · Transitions</h2>
-    <p class="hint">How will you move students between activities? Remember: speakerphone is punctuation, not default. Write the signal you'll use for each transition.</p>
-
+    <h2>2 · What it looks like when it goes wrong</h2>
+    <p class="hint">Now imagine the version of this lesson where <em>everything that could go sideways, does</em>. Be specific — what are students actually doing? What are you scrambling to fix in real time?</p>
     <div class="field">
-      <label>Opening the class (getting attention on Day 1)</label>
-      <input type="text" id="t-open" placeholder="e.g., speakerphone on, 'Welcome to circle, come to the blue mat'" />
-    </div>
-    <div class="field">
-      <label>Moving from whole-group into small-group work</label>
-      <input type="text" id="t-into-small" placeholder="e.g., speakerphone on for 10s, then off — groups know to teleport to their assigned zone" />
-    </div>
-    <div class="field">
-      <label>Pulling students back from small-group into whole-group</label>
-      <input type="text" id="t-back-whole" placeholder="e.g., three chimes on speakerphone, then a 30-second countdown on the shared whiteboard" />
-    </div>
-    <div class="field">
-      <label>Closing the class</label>
-      <input type="text" id="t-close" placeholder="e.g., speakerphone on, 30-second wrap, exit teleport unlocked last" />
+      <textarea id="wrong" class="tall" placeholder="e.g., Two students grab the mitochondria model and start throwing it. Another student teleports out of their assigned station and won't come back. Someone draws over the pinboard. One student takes their headset off five minutes in and stops responding. I'm on speakerphone the whole time trying to redirect everyone at once."></textarea>
     </div>
   </section>
 
-  <!-- 3. One Day-1 signal -->
+  <!-- 3. The plan -->
   <section class="card">
-    <h2>3 · Your Day-1 classroom signal</h2>
-    <p class="hint">Pick <strong>one</strong> classroom signal you will teach students on Day 1. Not the whole routine — one signal, the one you'll rely on all year. Describe what it looks like, sounds like, and what students do when it happens.</p>
-
+    <h2>3 · The powers you'd turn on — and when</h2>
+    <p class="hint">Now the plan. Which admin-panel powers do you turn on <em>before</em> class to prevent the wrong version? Which ones do you toggle <em>during</em> class, and at what moment? Be concrete — name the specific setting and the trigger.</p>
     <div class="field">
-      <label>Name your signal</label>
-      <input type="text" id="sig-name" placeholder="e.g., 'The Chime-Three', 'Circle Up', 'Freeze Frame'" />
+      <label>Before class (settings you set as the room opens)</label>
+      <textarea id="before" class="short" placeholder="e.g., Object spawning off. Drawing off by default. Teleport restricted to assigned stations. Speakerphone off. Mic muted on entry."></textarea>
     </div>
     <div class="field">
-      <label>What it looks / sounds like, and what students do</label>
-      <textarea id="sig-desc" placeholder="e.g., I ring the shared chime three times over speakerphone. Every student stops moving, mutes their mic, and turns their avatar to face the center of the room. First person to face center 'wins' the round — no prize, just recognition."></textarea>
+      <label>During class (toggles you'll make at specific moments)</label>
+      <textarea id="during" class="tall" placeholder="e.g., When we transition to small groups: turn Movement off so students stay at their station. If someone starts throwing models: Grabbing off for that student in the Participants tab, restore in 5 minutes. If a student takes their headset off: point them to the desktop version in Teams chat, keep the lesson moving. Speakerphone only for the opening, the transition to small groups, and the wrap."></textarea>
     </div>
   </section>
 
   <!-- 4. Post to peers -->
   <section class="card">
-    <h2>4 · Post your routine to your cohort</h2>
-    <p class="hint">Your routine will be composed into a single card and shared on the peer wall so others can see what you're planning. You'll be able to see everyone else's after you post.</p>
+    <h2>4 · Post your plan to your cohort</h2>
+    <p class="hint">Your plan will be composed into a single card and shared on the peer wall so others can see how you're thinking. You'll see everyone else's after you post.</p>
 
     <div class="meta-row">
       <div class="field" style="margin-bottom:0;">
@@ -266,7 +212,7 @@
     </div>
 
     <label style="display:block;font-size:13px;font-weight:600;color:var(--text-dim);margin:6px 0 6px;">Preview</label>
-    <div class="preview" id="preview">Fill in the sections above — your composed routine will appear here.</div>
+    <div class="preview" id="preview">Fill in the sections above — your composed plan will appear here.</div>
 
     <div class="submit-row" style="margin-top:14px;">
       <div class="char-count" id="char-count">0 chars</div>
@@ -277,10 +223,10 @@
 
   <!-- 5. Peer wall -->
   <section class="card peers">
-    <h2>5 · What your cohort is doing</h2>
-    <p class="hint">Unlocks after you post. Read three. Notice one thing you'd steal.</p>
+    <h2>5 · What your cohort is planning</h2>
+    <p class="hint">Unlocks after you post. Read three. Notice one move you'd steal.</p>
     <div id="peers-container">
-      <div class="locked-hint">🔒 Post your routine to unlock the peer wall.</div>
+      <div class="locked-hint">🔒 Post your plan to unlock the peer wall.</div>
     </div>
   </section>
 </div>
@@ -302,29 +248,15 @@ const firebaseConfig = {
 
 const CONFIG = {
   pageId: "as16-routine",
-  minChars: 150,
+  minChars: 250,
   showPeers: true
 };
 
 const LS_KEY = `wall-posted-${CONFIG.pageId}`;
 
-// --- toggle chips ---
-const toggleEls = document.querySelectorAll("#toggles-pre .toggle");
-toggleEls.forEach(el => {
-  el.addEventListener("click", () => {
-    el.classList.toggle("on");
-    compose();
-  });
-});
-
-// --- inputs that update the preview ---
-const inputs = [
-  "pre-other", "t-open", "t-into-small", "t-back-whole", "t-close",
-  "sig-name", "sig-desc", "name", "subject"
-];
+const inputs = ["lesson", "wrong", "before", "during", "name", "subject"];
 inputs.forEach(id => {
-  const el = document.getElementById(id);
-  el.addEventListener("input", compose);
+  document.getElementById(id).addEventListener("input", compose);
 });
 
 const previewEl = document.getElementById("preview");
@@ -332,43 +264,24 @@ const charCountEl = document.getElementById("char-count");
 const submitBtn = document.getElementById("submit");
 const statusEl = document.getElementById("status");
 
-function selectedToggles() {
-  return Array.from(document.querySelectorAll("#toggles-pre .toggle.on"))
-    .map(el => el.dataset.val);
-}
-
 function composedText() {
-  const toggles = selectedToggles();
-  const preOther = document.getElementById("pre-other").value.trim();
-  const tOpen = document.getElementById("t-open").value.trim();
-  const tSmall = document.getElementById("t-into-small").value.trim();
-  const tBack = document.getElementById("t-back-whole").value.trim();
-  const tClose = document.getElementById("t-close").value.trim();
-  const sigName = document.getElementById("sig-name").value.trim();
-  const sigDesc = document.getElementById("sig-desc").value.trim();
+  const lesson = document.getElementById("lesson").value.trim();
+  const wrong = document.getElementById("wrong").value.trim();
+  const before = document.getElementById("before").value.trim();
+  const during = document.getElementById("during").value.trim();
 
   const parts = [];
-
-  parts.push("PRE-CLASS SETTINGS");
-  if (toggles.length) parts.push("• " + toggles.join("\n• "));
-  if (preOther) parts.push("• " + preOther);
-  if (!toggles.length && !preOther) parts.push("(none listed yet)");
-
+  parts.push("THE LESSON");
+  parts.push(lesson || "—");
   parts.push("");
-  parts.push("TRANSITIONS");
-  parts.push(`• Opening: ${tOpen || "—"}`);
-  parts.push(`• Into small-group: ${tSmall || "—"}`);
-  parts.push(`• Back to whole-group: ${tBack || "—"}`);
-  parts.push(`• Closing: ${tClose || "—"}`);
-
+  parts.push("HOW IT COULD GO WRONG");
+  parts.push(wrong || "—");
   parts.push("");
-  parts.push("DAY-1 SIGNAL");
-  if (sigName || sigDesc) {
-    parts.push(`• ${sigName || "(unnamed)"} — ${sigDesc || "(no description yet)"}`);
-  } else {
-    parts.push("• (not written yet)");
-  }
-
+  parts.push("MY PLAN — BEFORE CLASS");
+  parts.push(before || "—");
+  parts.push("");
+  parts.push("MY PLAN — DURING CLASS");
+  parts.push(during || "—");
   return parts.join("\n");
 }
 
@@ -376,7 +289,7 @@ function compose() {
   const text = composedText();
   const name = document.getElementById("name").value.trim();
   previewEl.textContent = text;
-  previewEl.classList.toggle("filled", text.length > 40);
+  previewEl.classList.toggle("filled", text.length > 60);
 
   charCountEl.textContent = `${text.length} chars (min ${CONFIG.minChars})`;
   charCountEl.classList.toggle("ok", text.length >= CONFIG.minChars);
@@ -398,7 +311,6 @@ try {
   console.warn("Firebase init failed, falling back to localStorage only.", e);
 }
 
-// If user already posted this session, unlock the wall
 if (localStorage.getItem(LS_KEY) === "1") {
   unlockPeers();
 }
@@ -414,7 +326,7 @@ submitBtn.addEventListener("click", async () => {
   statusEl.textContent = "Posting…";
 
   const payload = {
-    text: text.slice(0, 2000),
+    text: text.slice(0, 3000),
     name: displayName.slice(0, 60),
     createdAt: serverTimestamp()
   };
@@ -430,7 +342,6 @@ submitBtn.addEventListener("click", async () => {
   }
 
   if (!saved) {
-    // localStorage fallback: still let the teacher through
     const local = JSON.parse(localStorage.getItem(`local-${CONFIG.pageId}`) || "[]");
     local.push({ text: payload.text, name: payload.name, ts: Date.now() });
     localStorage.setItem(`local-${CONFIG.pageId}`, JSON.stringify(local));
@@ -450,7 +361,6 @@ function unlockPeers() {
   container.innerHTML = `<div class="peers-empty">Loading peer responses…</div>`;
 
   if (!firestoreOk || !CONFIG.showPeers) {
-    // show local fallback
     const local = JSON.parse(localStorage.getItem(`local-${CONFIG.pageId}`) || "[]");
     renderPeers(container, local.map(l => ({ name: l.name, text: l.text })));
     return;
